@@ -1,0 +1,15 @@
+﻿<Window x:Class="GeometryApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="800" ResizeMode="NoResize">
+	<Grid>
+		<TabControl>
+			<TabItem Header="CRUD">
+				<Grid Background="#FFE5E5E5"/>
+			</TabItem>
+			<TabItem Header="WYSIWYG">
+				<Grid Background="#FFE5E5E5"/>
+			</TabItem>
+		</TabControl>
+	</Grid>
+</Window>
