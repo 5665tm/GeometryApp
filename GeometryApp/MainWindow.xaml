@@ -5,7 +5,9 @@
 	<Grid>
 		<TabControl>
 			<TabItem Header="CRUD">
-				<Grid Background="#FFE5E5E5"/>
+				<Grid x:Name="DataGrid" Background="#FFE5E5E5">
+					<DataGrid/>
+				</Grid>
 			</TabItem>
 			<TabItem Header="WYSIWYG">
 				<Grid Background="#FFE5E5E5"/>
