@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GeometryApp.Models.Base;
+using GeometryApp.Models.GeometryShapes;
 
 namespace GeometryApp.Models.Attributes
 {
@@ -8,14 +9,22 @@ namespace GeometryApp.Models.Attributes
 	/// </summary>
 	public class Position : BaseModel
 	{
-		public int CoordX { get; set; }
-		public int CoordY { get; set; }
-		public int ZIndex { get; set; }
-		public int Rotate { get; set; }
+		public double CoordX { get; set; }
+		public double CoordY { get; set; }
+
+		public override string ToString()
+		{
+			return "X: " + CoordX + "; Y: " + CoordY;
+		}
 
 		/// <summary>
-		///     Список геометрических фигур к которым применяется расположение в пространстве
+		///     Список кружков к которым применяется аттрибут
 		/// </summary>
-		public virtual ICollection<Character> Characters { get; set; }
+		public virtual ICollection<Circle> Circles { get; set; }
+
+		/// <summary>
+		///     Список прямоугольников к которым применяется аттрибут
+		/// </summary>
+		public virtual ICollection<Rectangle> Rectangles { get; set; }
 	}
 }

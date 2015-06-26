@@ -1,17 +1,16 @@
 ﻿namespace GeometryApp.Models.GeometryShapes.Interface
 {
+	/// <summary>
+	///     Интерфейс для фигур
+	///     Интерфейс - соглашение которому должны следовать
+	///     все классы которые используют этот интерфейс
+	/// </summary>
 	public interface IShape
 	{
 		/// <summary>
-		///     Возвращает инфу о фигуре.
+		///     Реализация этого метода должна возвращать информацию о фигуре
 		/// </summary>
-		/// <returns>Строковая информаця об объекте</returns>
-		string GetShapeInfo();
-
-		/// <summary>
-		///     Возвращает имя фигуры
-		/// </summary>
-		/// <returns></returns>
-		string GetShapeName();
+		/// <returns>Строковая информаця о фигуре</returns>
+		string GetInfo();
 	}
 }

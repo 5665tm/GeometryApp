@@ -2,7 +2,7 @@
 using GeometryApp.Models.Attributes;
 using GeometryApp.Models.GeometryShapes;
 
-namespace GeometryApp
+namespace GeometryApp.Models
 {
 	public class GeometryContext : DbContext
 
@@ -21,8 +21,6 @@ namespace GeometryApp
 
 		#region Attributes
 
-		public DbSet<Character> Characters { get; set; }
-
 		/// <summary>
 		///     Цвета
 		/// </summary>
@@ -32,11 +30,6 @@ namespace GeometryApp
 		///     Позиции
 		/// </summary>
 		public DbSet<Position> Positions { get; set; }
-
-		/// <summary>
-		///     Визуальные стили
-		/// </summary>
-		public DbSet<Visual> Visuals { get; set; }
 
 		#endregion
 
@@ -51,11 +44,6 @@ namespace GeometryApp
 		///     Прямоугольники
 		/// </summary>
 		public DbSet<Rectangle> Rectangles { get; set; }
-
-		/// <summary>
-		///     Треугольники
-		/// </summary>
-		public DbSet<Triangle> Triangles { get; set; }
 
 		#endregion
 	}

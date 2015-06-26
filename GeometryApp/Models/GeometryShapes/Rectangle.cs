@@ -25,23 +25,29 @@ namespace GeometryApp.Models.GeometryShapes
 		///     Возвращает информацию касательно прямоугольника
 		/// </summary>
 		/// <returns></returns>
-		public string GetShapeInfo()
+		public string GetInfo()
 		{
 			return "Width " + Width.ToString(CultureInfo.InvariantCulture) + " Height " + Height.ToString(CultureInfo.InvariantCulture);
 		}
-		public string GetShapeName()
-		{
-			return "Rectangle";
-		}
 
 		/// <summary>
-		///     Характеристика геометрической фигуры
+		///     ID цвета фигуры
 		/// </summary>
-		public Guid CharacterId { get; set; }
+		public Guid ColorId { get; set; }
 
 		/// <summary>
-		///     Характеристика геометрической фигуры
+		///     Цвет фигуры
 		/// </summary>
-		public virtual Character Character { get; set; }
+		public virtual Color Color { get; set; }
+
+		/// <summary>
+		///     ID позиции фигуры
+		/// </summary>
+		public Guid PositionId { get; set; }
+
+		/// <summary>
+		///     Позиция фигуры
+		/// </summary>
+		public virtual Position Position { get; set; }
 	}
 }

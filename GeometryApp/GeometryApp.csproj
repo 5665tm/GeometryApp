@@ -74,6 +74,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreateOrEdit.xaml.cs">
+      <DependentUpon>CreateOrEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShapeInfo.cs" />
+    <Page Include="CreateOrEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,23 +90,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GeometryContext.cs" />
-    <Compile Include="Initializer.cs" />
+    <Compile Include="Models\GeometryContext.cs" />
+    <Compile Include="Models\Initializer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Attributes\Character.cs" />
     <Compile Include="Models\Attributes\Color.cs" />
     <Compile Include="Models\Attributes\Position.cs" />
-    <Compile Include="Models\Attributes\Visual.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\GeometryShapes\Circle.cs" />
     <Compile Include="Models\GeometryShapes\Interface\IShape.cs" />
     <Compile Include="Models\GeometryShapes\Rectangle.cs" />
-    <Compile Include="Models\GeometryShapes\Triangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

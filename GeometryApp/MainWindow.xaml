@@ -1,16 +1,26 @@
 ﻿<Window x:Class="GeometryApp.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="600" Width="800" ResizeMode="NoResize">
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="MainWindow" Height="600" Width="800" ResizeMode="NoResize">
 	<Grid>
 		<TabControl>
-			<TabItem Header="CRUD">
-				<Grid x:Name="DataGrid" Background="#FFE5E5E5">
-					<DataGrid/>
+			<TabItem x:Name="Tabber" Header="CRUD">
+				<Grid>
+					<DataGrid Name="DataView" AutoGenerateColumns="False" ItemsSource="{Binding}" IsReadOnly="True"
+							RowHeight="30" SelectionMode="Single" SelectionChanged="DataView_SelectionChanged" Margin="0,0,0,41">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Shape Type" Width="110" Binding="{Binding Path=Type}" />
+							<DataGridTextColumn Header="Info" Width="230" Binding="{Binding Path=Info}" />
+							<DataGridTextColumn Header="Position" Width="380" Binding="{Binding Path=Coordinates}" />
+						</DataGrid.Columns>
+					</DataGrid>
+		<Button x:Name="BtCreate" Content="Create" Margin="0,0,614,2" Height="26" VerticalAlignment="Bottom" Click="BtCreate_Click" />
+		<Button x:Name="BtEdit" Content="Edit" Margin="179,0,435,2" Height="26" VerticalAlignment="Bottom" Click="BtEdit_Click" />
+		<Button x:Name="BtDelete" Content="Delete" Margin="358,0,256,2" Height="26" VerticalAlignment="Bottom" Click="BtDelete_Click" />
 				</Grid>
 			</TabItem>
 			<TabItem Header="WYSIWYG">
-				<Grid Background="#FFE5E5E5"/>
+				<Canvas x:Name="Field" Margin="0,0,0,0" />
 			</TabItem>
 		</TabControl>
 	</Grid>

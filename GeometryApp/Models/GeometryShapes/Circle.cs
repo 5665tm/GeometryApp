@@ -2,7 +2,6 @@
 using System.Globalization;
 using GeometryApp.Models.Attributes;
 using GeometryApp.Models.Base;
-using GeometryApp.Models.GeometryShapes;
 using GeometryApp.Models.GeometryShapes.Interface;
 
 namespace GeometryApp.Models.GeometryShapes
@@ -21,24 +20,29 @@ namespace GeometryApp.Models.GeometryShapes
 		///     Возвращает общую информацию о круге
 		/// </summary>
 		/// <returns></returns>
-		public string GetShapeInfo()
+		public string GetInfo()
 		{
 			return "Radius " + Radius.ToString(CultureInfo.InvariantCulture);
 		}
 
-		public string GetShapeName()
-		{
-			return "Circle";
-		}
+		/// <summary>
+		///     ID цвета фигуры
+		/// </summary>
+		public Guid ColorId { get; set; }
 
 		/// <summary>
-		///     Характеристика геометрической фигуры
+		///     Цвет фигуры
 		/// </summary>
-		public Guid CharacterId { get; set; }
+		public virtual Color Color { get; set; }
 
 		/// <summary>
-		///     Характеристика геометрической фигуры
+		///     ID позиции фигуры
 		/// </summary>
-		public virtual Character Character { get; set; }
+		public Guid PositionId { get; set; }
+
+		/// <summary>
+		///     Позиция фигуры
+		/// </summary>
+		public virtual Position Position { get; set; }
 	}
 }
