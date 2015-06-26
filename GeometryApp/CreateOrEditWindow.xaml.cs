@@ -16,7 +16,7 @@ namespace GeometryApp
 	public partial class CreateOrEditWindow
 	{
 		private readonly Guid? _guid;
-		private readonly ShapeInfo.ShapeType _shapeType;
+		private ShapeInfo.ShapeType _shapeType;
 
 		public CreateOrEditWindow(Guid? guid, ShapeInfo.ShapeType shapeType = ShapeInfo.ShapeType.Circle)
 		{
@@ -34,12 +34,12 @@ namespace GeometryApp
 				// Если GUID заполнен то включаем режим редактирования фигуры с таким guid
 				if (_guid.HasValue)
 				{
-					InitEditMode(shapeType);
+					InitEditMode();
 				}
 				// иначе включаем режим добавления новой фигуры
 				else
 				{
-					InitCreateMode(shapeType);
+					InitCreateMode();
 				}
 			}
 		}
@@ -48,12 +48,12 @@ namespace GeometryApp
 		///     Инициализирует режим редактирования фигуры
 		/// </summary>
 		/// <param name="shapeType"></param>
-		private void InitEditMode(ShapeInfo.ShapeType shapeType)
+		private void InitEditMode()
 		{
 			using (var gc = new GeometryContext())
 			{
 				ShapesList.IsEnabled = false;
-				switch (shapeType)
+				switch (_shapeType)
 				{
 					// если редактируем круг
 					case ShapeInfo.ShapeType.Circle:
@@ -119,14 +119,14 @@ namespace GeometryApp
 		///     Инициализирует режим создания новой фигуры
 		/// </summary>
 		/// <param name="shapeType"></param>
-		private void InitCreateMode(ShapeInfo.ShapeType shapeType)
+		private void InitCreateMode()
 		{
 			try
 			{
 				using (var gc = new GeometryContext())
 				{
 					ShapesList.IsEnabled = true;
-					switch (shapeType)
+					switch (_shapeType)
 					{
 						// если создаем круг
 						case ShapeInfo.ShapeType.Circle:
@@ -179,8 +179,8 @@ namespace GeometryApp
 							gc.Rectangles.Attach(item);
 							gc.Rectangles.Remove(item);
 						}
+						gc.SaveChanges();
 					}
-					gc.SaveChanges();
 
 					// затем создаем новую запись о координате
 					Position position = new Position
@@ -189,6 +189,7 @@ namespace GeometryApp
 						CoordY = Convert.ToDouble(TextBoxCoordY.Text)
 					};
 					gc.Positions.Add(position);
+					gc.SaveChanges();
 
 					// определяем какой цвет выбран
 					string colorName;
@@ -205,6 +206,7 @@ namespace GeometryApp
 							break;
 					}
 					var color = gc.Colors.First(x => x.Title == colorName);
+					gc.SaveChanges();
 
 					// и создаем нужную фигуру
 					if (_shapeType == ShapeInfo.ShapeType.Circle)
@@ -216,7 +218,6 @@ namespace GeometryApp
 							Color = color
 						};
 						gc.Circles.Add(circle);
-						gc.SaveChanges();
 					}
 					else
 					{
@@ -228,8 +229,9 @@ namespace GeometryApp
 							Color = color
 						};
 						gc.Rectangles.Add(rec);
-						gc.SaveChanges();
 					}
+					gc.SaveChanges();
+					Close();
 				}
 				catch (Exception)
 				{
@@ -244,15 +246,20 @@ namespace GeometryApp
 		/// <param name="e"></param>
 		private void ShapesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			// если выбрали круг - создаем круг
-			if (ShapesList.SelectedIndex == 0)
+			// если GUID == null, а значит включен режим редактирования
+			if (!_guid.HasValue)
 			{
-				InitCreateMode(ShapeInfo.ShapeType.Circle);
-			}
-			// иначе создаем прямоугольник
-			else
-			{
-				InitCreateMode(ShapeInfo.ShapeType.Rectangle);
+				// если выбрали круг - создаем круг
+				if (ShapesList.SelectedIndex == 0)
+				{
+					_shapeType = ShapeInfo.ShapeType.Circle;
+				}
+				// иначе создаем прямоугольник
+				else
+				{
+					_shapeType = ShapeInfo.ShapeType.Rectangle;
+				}
+				InitCreateMode();
 			}
 		}
 	}

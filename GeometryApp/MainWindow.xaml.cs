@@ -24,17 +24,17 @@ namespace GeometryApp
 			InitializeComponent();
 			// начальная инициализация базы данных
 			Initializer.Fill();
-			RefreshWindow();
+			RefreshAll();
 		}
 
-		private void RefreshWindow()
+		private void RefreshAll()
 		{
-			// очищаем канвас
-			FieldCanvas.Children.Clear();
 
 			using (var gc = new GeometryContext())
 			{
-				// новый лист с фигурами
+				// очищаем канвас
+				FieldCanvas.Children.Clear();
+				// создаем новый лист с фигурами
 				var shapeInfos = new List<ShapeInfo>();
 
 				// добавляем круги
@@ -117,14 +117,14 @@ namespace GeometryApp
 		{
 			CreateOrEditWindow createOrEditWindow = new CreateOrEditWindow(null);
 			createOrEditWindow.ShowDialog();
-			RefreshWindow();
+			RefreshAll();
 		}
 
 		private void BtEdit_Click(object sender, RoutedEventArgs e)
 		{
 			CreateOrEditWindow createOrEditWindow = new CreateOrEditWindow(_activeShape.Guid, _activeShape.Type);
 			createOrEditWindow.ShowDialog();
-			RefreshWindow();
+			RefreshAll();
 		}
 
 		/// <summary>
@@ -151,7 +151,7 @@ namespace GeometryApp
 					gc.SaveChanges();
 				}
 			}
-			RefreshWindow();
+			RefreshAll();
 		}
 	}
 }
