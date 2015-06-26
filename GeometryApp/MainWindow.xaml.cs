@@ -15,33 +15,40 @@ namespace GeometryApp
 	public partial class MainWindow
 	{
 		/// <summary>
-		///     Фигура которая выбрана в данный момент пользователем
+		///     Фигура которая выбрана в данный момент пользователем в DataGrid
 		/// </summary>
 		private ShapeInfo _activeShape;
 
+		/// <summary>
+		///     Конструктор главного окна
+		/// </summary>
 		public MainWindow()
 		{
+			// инициализация элементов управления
 			InitializeComponent();
 			// начальная инициализация базы данных
 			Initializer.Fill();
+			// обновляем рабочую область
 			RefreshAll();
 		}
 
+		/// <summary>
+		///     Выполняет обновление рабочей области
+		/// </summary>
 		private void RefreshAll()
 		{
-
 			using (var gc = new GeometryContext())
 			{
 				// очищаем канвас
 				FieldCanvas.Children.Clear();
-				// создаем новый лист с фигурами
-				var shapeInfos = new List<ShapeInfo>();
+				// создаем новый лист/список с фигурами
+				var shapeInfoList = new List<ShapeInfo>();
 
-				// добавляем круги
+				// обрабатываем круги
 				foreach (var circle in gc.Circles)
 				{
 					// добавляем в DataGrid
-					shapeInfos.Add(new ShapeInfo(
+					shapeInfoList.Add(new ShapeInfo(
 						circle.Id,
 						ShapeInfo.ShapeType.Circle,
 						circle.GetInfo(),
@@ -63,11 +70,11 @@ namespace GeometryApp
 					FieldCanvas.Children.Add(ellipse);
 				}
 
-				// добавляем прямоугольники
+				// обрабатываем прямоугольники
 				foreach (var rec in gc.Rectangles)
 				{
 					// добавляем в DataGrid
-					shapeInfos.Add(new ShapeInfo(
+					shapeInfoList.Add(new ShapeInfo(
 						rec.Id,
 						ShapeInfo.ShapeType.Rectangle,
 						rec.GetInfo(),
@@ -89,9 +96,10 @@ namespace GeometryApp
 				}
 
 				_activeShape = null;
-				BtDelete.IsEnabled = false;
-				BtEdit.IsEnabled = false;
-				DataView.ItemsSource = shapeInfos;
+				ButtonDelete.IsEnabled = false;
+				ButtonEdit.IsEnabled = false;
+				// Закидываем в DataGrid информацию о всех фигурах
+				DataView.ItemsSource = shapeInfoList;
 			}
 		}
 
@@ -105,22 +113,32 @@ namespace GeometryApp
 			try
 			{
 				_activeShape = (ShapeInfo) e.AddedItems[0];
-				BtDelete.IsEnabled = true;
-				BtEdit.IsEnabled = true;
+				ButtonDelete.IsEnabled = true;
+				ButtonEdit.IsEnabled = true;
 			}
 			catch (Exception)
 			{
 			}
 		}
 
-		private void BtCreate_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		///     Срабатыват при нажатии на кнопку "Создать"
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ButtonCreate_Click(object sender, RoutedEventArgs e)
 		{
 			CreateOrEditWindow createOrEditWindow = new CreateOrEditWindow(null);
 			createOrEditWindow.ShowDialog();
 			RefreshAll();
 		}
 
-		private void BtEdit_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Срабатывает при нажатии на кнопку "Редактировать"
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ButtonEdit_Click(object sender, RoutedEventArgs e)
 		{
 			CreateOrEditWindow createOrEditWindow = new CreateOrEditWindow(_activeShape.Guid, _activeShape.Type);
 			createOrEditWindow.ShowDialog();

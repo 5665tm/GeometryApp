@@ -15,9 +15,9 @@
 							<DataGridTextColumn Header="Color" Width="180" Binding="{Binding Path=Color}" />
 						</DataGrid.Columns>
 					</DataGrid>
-		<Button x:Name="BtCreate" Content="Create" Margin="0,0,614,2" Height="26" VerticalAlignment="Bottom" Click="BtCreate_Click" />
-		<Button x:Name="BtEdit" Content="Edit" Margin="179,0,435,2" Height="26" VerticalAlignment="Bottom" Click="BtEdit_Click" />
-		<Button x:Name="BtDelete" Content="Delete" Margin="358,0,256,2" Height="26" VerticalAlignment="Bottom" Click="BtDelete_Click" />
+		<Button x:Name="BtCreate" Content="Create" Margin="0,0,614,2" Height="26" VerticalAlignment="Bottom" Click="ButtonCreate_Click" />
+		<Button x:Name="ButtonEdit" Content="Edit" Margin="179,0,435,2" Height="26" VerticalAlignment="Bottom" Click="ButtonEdit_Click" />
+		<Button x:Name="ButtonDelete" Content="Delete" Margin="358,0,256,2" Height="26" VerticalAlignment="Bottom" Click="BtDelete_Click" />
 				</Grid>
 			</TabItem>
 			<TabItem Header="WYSIWYG">

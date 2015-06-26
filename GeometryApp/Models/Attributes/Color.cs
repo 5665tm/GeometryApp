@@ -10,7 +10,6 @@ namespace GeometryApp.Models.Attributes
 	/// </summary>
 	public class Color : BaseModel
 	{
-
 		/// <summary>
 		///     Название цвета
 		/// </summary>
@@ -26,8 +25,13 @@ namespace GeometryApp.Models.Attributes
 		/// </summary>
 		public virtual ICollection<Rectangle> Rectangles { get; set; }
 
+		/// <summary>
+		///     Конвертирует запись БД в цвет используемый элементами управления WPF
+		/// </summary>
+		/// <returns></returns>
 		public SolidColorBrush GetBrush()
 		{
+			// В зависимости от название цвета возвращается нужная кисть
 			switch (Title)
 			{
 				case "Green":

@@ -11,43 +11,52 @@ using GeometryApp.Models.GeometryShapes;
 namespace GeometryApp
 {
 	/// <summary>
-	///     Логика взаимодействия для CreateOrEditWindow.xaml
+	///     Окно создания и редактирования фигуры
 	/// </summary>
 	public partial class CreateOrEditWindow
 	{
+		/// <summary>
+		///     Guid элемента с которым мы работаем
+		///     Вопросительный знак указывает на то что он может быть NULL
+		/// </summary>
 		private readonly Guid? _guid;
+
+		/// <summary>
+		///     Тип фигуры с которой мы работаем
+		/// </summary>
 		private ShapeInfo.ShapeType _shapeType;
 
+		/// <summary>
+		///     Конструктор окна
+		/// </summary>
+		/// <param name="guid">Guid фигуры которую нужно редактировать, если NULL - режим создания новой фигуры</param>
+		/// <param name="shapeType">Тип фигуры</param>
 		public CreateOrEditWindow(Guid? guid, ShapeInfo.ShapeType shapeType = ShapeInfo.ShapeType.Circle)
 		{
-			using (var gc = new GeometryContext())
+			_guid = guid;
+			_shapeType = shapeType;
+
+			InitializeComponent();
+
+			// заполняем выпадающий список с цветами
+			ColorList.ItemsSource = new List<string> {"Red", "Green", "Blue"};
+			ColorList.SelectedIndex = 0;
+
+			// Если GUID заполнен то включаем режим редактирования фигуры с таким guid
+			if (_guid.HasValue)
 			{
-				_guid = guid;
-				_shapeType = shapeType;
-
-				InitializeComponent();
-
-				// заполняем выпадающий список с цветами
-				ColorList.ItemsSource = new List<string> {"Red", "Green", "Blue"};
-				ColorList.SelectedIndex = 0;
-
-				// Если GUID заполнен то включаем режим редактирования фигуры с таким guid
-				if (_guid.HasValue)
-				{
-					InitEditMode();
-				}
-				// иначе включаем режим добавления новой фигуры
-				else
-				{
-					InitCreateMode();
-				}
+				InitEditMode();
+			}
+			// иначе включаем режим добавления новой фигуры
+			else
+			{
+				InitCreateMode();
 			}
 		}
 
 		/// <summary>
 		///     Инициализирует режим редактирования фигуры
 		/// </summary>
-		/// <param name="shapeType"></param>
 		private void InitEditMode()
 		{
 			using (var gc = new GeometryContext())
@@ -62,6 +71,7 @@ namespace GeometryApp
 						TextBox1.IsEnabled = true;
 						TextBox2.IsEnabled = false;
 
+						// заполняем все поля информацией о редактируемой фигуре
 						Circle circle = gc.Circles.First(x => x.Id == _guid.Value);
 						TextBox1.Text = circle.Radius.ToString(CultureInfo.InvariantCulture);
 						TextBoxCoordX.Text = circle.Position.CoordX.ToString(CultureInfo.InvariantCulture);
@@ -90,6 +100,7 @@ namespace GeometryApp
 						TextBox1.IsEnabled = true;
 						TextBox2.IsEnabled = true;
 
+						// заполняем все поля информацией о редактируемой фигуре
 						Rectangle rectangle = gc.Rectangles.First(x => x.Id == _guid.Value);
 						TextBox1.Text = rectangle.Width.ToString(CultureInfo.InvariantCulture);
 						TextBox2.Text = rectangle.Height.ToString(CultureInfo.InvariantCulture);
@@ -118,32 +129,28 @@ namespace GeometryApp
 		/// <summary>
 		///     Инициализирует режим создания новой фигуры
 		/// </summary>
-		/// <param name="shapeType"></param>
 		private void InitCreateMode()
 		{
 			try
 			{
-				using (var gc = new GeometryContext())
+				ShapesList.IsEnabled = true;
+				switch (_shapeType)
 				{
-					ShapesList.IsEnabled = true;
-					switch (_shapeType)
-					{
-						// если создаем круг
-						case ShapeInfo.ShapeType.Circle:
-							Label1.Content = "Radius";
-							Label2.Content = "";
-							TextBox1.IsEnabled = true;
-							TextBox2.IsEnabled = false;
-							break;
+					// если создаем круг
+					case ShapeInfo.ShapeType.Circle:
+						Label1.Content = "Radius";
+						Label2.Content = "";
+						TextBox1.IsEnabled = true;
+						TextBox2.IsEnabled = false;
+						break;
 
-						// если создаем прямоугольник
-						case ShapeInfo.ShapeType.Rectangle:
-							Label1.Content = "Width";
-							Label2.Content = "Height";
-							TextBox1.IsEnabled = true;
-							TextBox2.IsEnabled = true;
-							break;
-					}
+					// если создаем прямоугольник
+					case ShapeInfo.ShapeType.Rectangle:
+						Label1.Content = "Width";
+						Label2.Content = "Height";
+						TextBox1.IsEnabled = true;
+						TextBox2.IsEnabled = true;
+						break;
 				}
 			}
 			catch (Exception)

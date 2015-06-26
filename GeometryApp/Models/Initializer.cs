@@ -5,8 +5,14 @@ using GeometryApp.Models.GeometryShapes;
 
 namespace GeometryApp.Models
 {
+	/// <summary>
+	///     Инициализатор базы данных
+	/// </summary>
 	public static class Initializer
 	{
+		/// <summary>
+		///     Заполняет базу данных демо даннными
+		/// </summary>
 		public static void Fill()
 		{
 			using (var gc = new GeometryContext())

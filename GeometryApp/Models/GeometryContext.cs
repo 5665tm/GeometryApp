@@ -4,22 +4,18 @@ using GeometryApp.Models.GeometryShapes;
 
 namespace GeometryApp.Models
 {
+	/// <summary>
+	///     Сущность для работы с базой данных
+	/// </summary>
 	public class GeometryContext : DbContext
 
 	{
+		/// <summary>
+		///     Конструктор для создания объекта
+		/// </summary>
 		public GeometryContext() : base("GeometryEntities")
 		{
 		}
-
-		/// <summary>
-		///     Переопредление при создании базы данных
-		/// </summary>
-		/// <param name="modelBuilder"></param>
-		protected override void OnModelCreating(DbModelBuilder modelBuilder)
-		{
-		}
-
-		#region Attributes
 
 		/// <summary>
 		///     Цвета
@@ -31,10 +27,6 @@ namespace GeometryApp.Models
 		/// </summary>
 		public DbSet<Position> Positions { get; set; }
 
-		#endregion
-
-		#region GeometryShape
-
 		/// <summary>
 		///     Круги
 		/// </summary>
@@ -44,7 +36,5 @@ namespace GeometryApp.Models
 		///     Прямоугольники
 		/// </summary>
 		public DbSet<Rectangle> Rectangles { get; set; }
-
-		#endregion
 	}
 }
