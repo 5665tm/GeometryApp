@@ -10,6 +10,7 @@ namespace GeometryApp.Models.Attributes
 	/// </summary>
 	public class Color : BaseModel
 	{
+
 		/// <summary>
 		///     Название цвета
 		/// </summary>

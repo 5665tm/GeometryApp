@@ -1,31 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using GeometryApp.Models;
+using GeometryApp.Models.GeometryShapes;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace GeometryApp
 {
 	/// <summary>
 	///     Логика взаимодействия для MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MainWindow
 	{
-		public MainWindow()
-		{
-			InitializeComponent();
-//			Initializer.Fill();
-			Refresh();
-		}
-
 		/// <summary>
 		///     Фигура которая выбрана в данный момент пользователем
 		/// </summary>
 		private ShapeInfo _activeShape;
 
-		public void Refresh()
+		public MainWindow()
 		{
+			InitializeComponent();
+			// начальная инициализация базы данных
+			Initializer.Fill();
+			RefreshWindow();
+		}
+
+		private void RefreshWindow()
+		{
+			// очищаем канвас
+			FieldCanvas.Children.Clear();
+
 			using (var gc = new GeometryContext())
 			{
 				// новый лист с фигурами
@@ -39,8 +45,9 @@ namespace GeometryApp
 						circle.Id,
 						ShapeInfo.ShapeType.Circle,
 						circle.GetInfo(),
-						circle.Position.ToString())
-						);
+						circle.Position.ToString(),
+						circle.Color.Title
+						));
 
 					// рисуем фигуру
 					Ellipse ellipse = new Ellipse
@@ -53,8 +60,9 @@ namespace GeometryApp
 					// устанавливаем на канвасе с указанными координатами
 					ellipse.SetValue(Canvas.LeftProperty, circle.Position.CoordX);
 					ellipse.SetValue(Canvas.TopProperty, circle.Position.CoordY);
-					Field.Children.Add(ellipse);
+					FieldCanvas.Children.Add(ellipse);
 				}
+
 				// добавляем прямоугольники
 				foreach (var rec in gc.Rectangles)
 				{
@@ -63,8 +71,8 @@ namespace GeometryApp
 						rec.Id,
 						ShapeInfo.ShapeType.Rectangle,
 						rec.GetInfo(),
-						rec.Position.ToString())
-						);
+						rec.Position.ToString(), rec.Color.Title
+						));
 
 					// рисуем фигуру
 					Rectangle recShape = new Rectangle
@@ -77,7 +85,7 @@ namespace GeometryApp
 					// устанавливаем на канвасе с указанными координатами
 					recShape.SetValue(Canvas.LeftProperty, rec.Position.CoordX);
 					recShape.SetValue(Canvas.TopProperty, rec.Position.CoordY);
-					Field.Children.Add(recShape);
+					FieldCanvas.Children.Add(recShape);
 				}
 
 				_activeShape = null;
@@ -94,23 +102,56 @@ namespace GeometryApp
 		/// <param name="e"></param>
 		private void DataView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			_activeShape = (ShapeInfo) e.AddedItems[0];
-			BtDelete.IsEnabled = true;
-			BtEdit.IsEnabled = true;
+			try
+			{
+				_activeShape = (ShapeInfo) e.AddedItems[0];
+				BtDelete.IsEnabled = true;
+				BtEdit.IsEnabled = true;
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		private void BtCreate_Click(object sender, RoutedEventArgs e)
 		{
+			CreateOrEditWindow createOrEditWindow = new CreateOrEditWindow(null);
+			createOrEditWindow.ShowDialog();
+			RefreshWindow();
 		}
 
 		private void BtEdit_Click(object sender, RoutedEventArgs e)
 		{
-			CreateOrEdit createOrEdit = new CreateOrEdit(_activeShape.Guid, _activeShape.Type);
-			createOrEdit.ShowDialog();
+			CreateOrEditWindow createOrEditWindow = new CreateOrEditWindow(_activeShape.Guid, _activeShape.Type);
+			createOrEditWindow.ShowDialog();
+			RefreshWindow();
 		}
 
+		/// <summary>
+		///     Нажатие на кнопку удаления элемента
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void BtDelete_Click(object sender, RoutedEventArgs e)
 		{
+			using (var gc = new GeometryContext())
+			{
+				if (_activeShape.Type == ShapeInfo.ShapeType.Circle)
+				{
+					var item = new Circle {Id = _activeShape.Guid};
+					gc.Circles.Attach(item);
+					gc.Circles.Remove(item);
+					gc.SaveChanges();
+				}
+				if (_activeShape.Type == ShapeInfo.ShapeType.Rectangle)
+				{
+					var item = new Models.GeometryShapes.Rectangle {Id = _activeShape.Guid};
+					gc.Rectangles.Attach(item);
+					gc.Rectangles.Remove(item);
+					gc.SaveChanges();
+				}
+			}
+			RefreshWindow();
 		}
 	}
 }

@@ -11,7 +11,8 @@
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Shape Type" Width="110" Binding="{Binding Path=Type}" />
 							<DataGridTextColumn Header="Info" Width="230" Binding="{Binding Path=Info}" />
-							<DataGridTextColumn Header="Position" Width="380" Binding="{Binding Path=Coordinates}" />
+							<DataGridTextColumn Header="Position" Width="250" Binding="{Binding Path=Coordinates}" />
+							<DataGridTextColumn Header="Color" Width="180" Binding="{Binding Path=Color}" />
 						</DataGrid.Columns>
 					</DataGrid>
 		<Button x:Name="BtCreate" Content="Create" Margin="0,0,614,2" Height="26" VerticalAlignment="Bottom" Click="BtCreate_Click" />
@@ -20,7 +21,7 @@
 				</Grid>
 			</TabItem>
 			<TabItem Header="WYSIWYG">
-				<Canvas x:Name="Field" Margin="0,0,0,0" />
+				<Canvas x:Name="FieldCanvas" Margin="0,0,0,0" />
 			</TabItem>
 		</TabControl>
 	</Grid>

@@ -74,11 +74,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CreateOrEdit.xaml.cs">
-      <DependentUpon>CreateOrEdit.xaml</DependentUpon>
+    <Compile Include="CreateOrEditWindow.xaml.cs">
+      <DependentUpon>CreateOrEditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShapeInfo.cs" />
-    <Page Include="CreateOrEdit.xaml">
+    <Page Include="CreateOrEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

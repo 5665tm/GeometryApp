@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GeometryApp.Models.Attributes;
 using GeometryApp.Models.GeometryShapes;
 
@@ -10,6 +11,39 @@ namespace GeometryApp.Models
 		{
 			using (var gc = new GeometryContext())
 			{
+				// очищаем старую базу данных
+				foreach (var id in gc.Colors.Select(e => e.Id))
+				{
+					var item = new Color {Id = id};
+					gc.Colors.Attach(item);
+					gc.Colors.Remove(item);
+				}
+				gc.SaveChanges();
+
+				foreach (var id in gc.Positions.Select(e => e.Id))
+				{
+					var item = new Position {Id = id};
+					gc.Positions.Attach(item);
+					gc.Positions.Remove(item);
+				}
+				gc.SaveChanges();
+
+				foreach (var id in gc.Circles.Select(e => e.Id))
+				{
+					var item = new Circle {Id = id};
+					gc.Circles.Attach(item);
+					gc.Circles.Remove(item);
+				}
+				gc.SaveChanges();
+
+				foreach (var id in gc.Rectangles.Select(e => e.Id))
+				{
+					var item = new Rectangle {Id = id};
+					gc.Rectangles.Attach(item);
+					gc.Rectangles.Remove(item);
+				}
+				gc.SaveChanges();
+
 				// добавляем цвета
 				var colorList = new List<Color>
 				{
@@ -43,7 +77,7 @@ namespace GeometryApp.Models
 					new Circle {Radius = 50, Color = colorList[1], Position = positionList[1]},
 					new Circle {Radius = 60, Color = colorList[2], Position = positionList[2]},
 					new Circle {Radius = 70, Color = colorList[0], Position = positionList[3]},
-					new Circle {Radius = 80, Color = colorList[1], Position = positionList[4]},
+					new Circle {Radius = 80, Color = colorList[1], Position = positionList[4]}
 				};
 				circleList.ForEach(item => gc.Circles.Add(item));
 				gc.SaveChanges();
@@ -54,7 +88,7 @@ namespace GeometryApp.Models
 					new Rectangle {Width = 40, Height = 70, Color = colorList[0], Position = positionList[5]},
 					new Rectangle {Width = 20, Height = 20, Color = colorList[1], Position = positionList[6]},
 					new Rectangle {Width = 30, Height = 30, Color = colorList[2], Position = positionList[7]},
-					new Rectangle {Width = 70, Height = 50, Color = colorList[0], Position = positionList[8]},
+					new Rectangle {Width = 70, Height = 50, Color = colorList[0], Position = positionList[8]}
 				};
 				rectangleList.ForEach(item => gc.Rectangles.Add(item));
 				gc.SaveChanges();

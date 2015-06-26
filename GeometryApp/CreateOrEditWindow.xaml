@@ -1,9 +1,9 @@
-﻿<Window x:Class="GeometryApp.CreateOrEdit"
+﻿<Window x:Class="GeometryApp.CreateOrEditWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="CreateOrEdit" Height="186" Width="612" ResizeMode="NoResize">
+		Title="CreateOrEditWindow" Height="186" Width="612" ResizeMode="NoResize">
 	<Grid>
-		<ListBox x:Name="ShapesList" HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="119" SelectedIndex="0">
+		<ListBox x:Name="ShapesList" HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="119" SelectedIndex="0" SelectionChanged="ShapesList_SelectionChanged">
 			<ListBoxItem>Circle</ListBoxItem>
 			<ListBoxItem>Rectangle</ListBoxItem>
 		</ListBox>
